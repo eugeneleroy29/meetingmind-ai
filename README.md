@@ -1,6 +1,6 @@
 # 🎙️ MeetingMind AI — Voice & Meeting Intelligence Engine
 
-> Sub-second audio transcription, executive briefings, and automated action item extraction powered by Groq Whisper & LLaMA 3.3.
+> Sub-second audio transcription, executive briefings, and automated action item extraction powered by Groq Whisper & Compound AI.
 
 
 ---
@@ -39,7 +39,7 @@
                        │                       │
                        ▼                       ▼
     ┌──────────────────────────────────────────────────────────┐
-    │       Groq LLaMA 3.3 Intelligence Engine (/analyze)      │
+    │      Groq Compound Reasoning Engine (/analyze)           │
     │  (JSON Schema Extraction: Summary, Actions, & Email)     │
     └──────────────────────────┬───────────────────────────────┘
                                │
@@ -53,21 +53,12 @@
 
 ---
 
-## 🚀 Key Features
-
-* **Multi-Input Flexibility:** Live browser microphone recording with real-time timer, file dropzone (`.mp3`, `.wav`, `.m4a`, `.webm`, `.txt`, `.md`), or 1-click preset scenarios.
-* **Low-Latency Speech Processing:** Transcribes long-form audio in under 500ms using `whisper-large-v3-turbo` with automated fallback to `whisper-large-v3`.
-* **Reliable Multi-Model Failover:** Resilient model cascading (`groq/compound-mini`, `llama-3.1-70b-versatile`, `llama-3.1-8b-instant`) to prevent rate-limit disruptions.
-* **Interactive Deliverables Board:** Filter tasks by priority, toggle completion status, and export clean Markdown or formatted emails in 1 click.
-
----
-
 ## 🛠️ Tech Stack
 
 * **Framework:** Next.js 15 (App Router)
 * **Frontend:** React 19, TypeScript, Tailwind CSS, Lucide React
 * **Speech-to-Text (STT):** Groq Whisper Turbo (`whisper-large-v3-turbo`)
-* **Reasoning & Extraction (LLM):** Groq (`llama-3.1-70b-versatile` / `groq/compound-mini`)
+* **Reasoning & Extraction (LLM):** Groq (`groq/compound-mini` / `groq/compound`)
 * **Audio Capture:** HTML5 `MediaRecorder` API & Web Audio Streams
 
 ---
@@ -96,14 +87,6 @@ GROQ_API_KEY=your_groq_api_key_here
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser.
-
----
-
-## 🎯 Interview Talking Points
-
-* **What is it?** An automated voice intelligence engine that turns meetings and voice memos into executive summaries, assigned tasks with deadlines, and distribution emails.
-* **Why Groq Whisper?** Reduces audio transcription latency from standard cloud benchmarks (3-5s) down to sub-500ms, enabling real-time summarization UX.
-* **How is accuracy enforced?** Uses strict JSON schema prompting to ensure action items always contain structured assignees, deadlines, and priorities without hallucinations.
 
 ---
 

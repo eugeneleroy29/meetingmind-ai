@@ -47,7 +47,7 @@ export default function Home() {
             <div>
               <span className="font-bold text-slate-100 text-lg tracking-tight">MeetingMind AI</span>
               <span className="hidden sm:inline-block ml-2 px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-md">
-                Groq Whisper & LLaMA 3.3
+                Groq Whisper & Compound AI
               </span>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function Home() {
           Turn Raw Audio & Meetings into Actionable Intelligence
         </h1>
         <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto mt-3">
-          Record voice memos or upload team calls. Groq Whisper and LLaMA 3.3 extract executive summaries,
+          Record voice memos or upload team calls. Groq Whisper and high-speed Compound LLMs extract executive summaries,
           assign action items with deadlines, and draft distribution emails in seconds.
         </p>
       </div>

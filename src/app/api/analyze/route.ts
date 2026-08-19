@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 import { MeetingAnalysis } from '@/types/meeting';
 
-// List of fallback models configured for your Groq tier
+// Active models verified on your Groq workspace
 const CANDIDATE_MODELS = [
   'groq/compound-mini',
-  'llama-3.1-70b-versatile',
-  'llama-3.1-8b-instant',
-  'llama3-70b-8192',
-  'llama3-8b-8192',
+  'groq/compound',
+  'openai/gpt-oss-120b',
+  'openai/gpt-oss-20b',
+  'qwen/qwen3.6-27b',
 ];
 
 export async function POST(req: NextRequest) {
@@ -73,7 +73,7 @@ Extract the meeting intelligence and return ONLY the JSON object.`;
     let completion: any = null;
     let lastError: any = null;
 
-    // Iterate through available models with automatic fallback
+    // Automatic fallback across verified models
     for (const model of CANDIDATE_MODELS) {
       try {
         completion = await groq.chat.completions.create({
@@ -86,7 +86,7 @@ Extract the meeting intelligence and return ONLY the JSON object.`;
           response_format: { type: 'json_object' },
         });
         if (completion?.choices?.[0]?.message?.content) {
-          break; // Succeeded
+          break; // Success
         }
       } catch (err: any) {
         console.warn(`Model ${model} failed, trying next candidate:`, err?.message || err);
