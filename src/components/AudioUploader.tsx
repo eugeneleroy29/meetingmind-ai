@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mic, Square, UploadCloud, FileText, Play, RotateCcw, Sparkles } from 'lucide-react';
+import { Mic, Square, UploadCloud, FileText, RotateCcw, Sparkles } from 'lucide-react';
 import { useAudioRecorder } from '@/hooks/useAudioRecorder';
 import { PRESET_MEETINGS } from '@/data/presetMeetings';
 
@@ -90,53 +90,54 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-white">
       {/* Tabs */}
-      <div className="flex border-b border-slate-800 pb-4 gap-2 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 border-b border-slate-800 pb-4 gap-2 mb-6">
         <button
           onClick={() => setActiveTab('preset')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
             activeTab === 'preset'
               ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          <Sparkles className="w-4 h-4 text-blue-400" />
-          Preset Meetings (1-Click Demo)
+          <Sparkles className="w-4 h-4 text-blue-400 shrink-0" />
+          <span className="hidden sm:inline">Preset Meetings</span>
+          <span className="sm:hidden">Preset</span>
         </button>
 
         <button
           onClick={() => setActiveTab('record')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
             activeTab === 'record'
               ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          <Mic className="w-4 h-4 text-emerald-400" />
-          Record Voice Memo
+          <Mic className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>Record</span>
         </button>
 
         <button
           onClick={() => setActiveTab('upload')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
             activeTab === 'upload'
               ? 'bg-purple-600/20 text-purple-400 border border-purple-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          <UploadCloud className="w-4 h-4 text-purple-400" />
-          Upload Audio / File
+          <UploadCloud className="w-4 h-4 text-purple-400 shrink-0" />
+          <span>Upload</span>
         </button>
 
         <button
           onClick={() => setActiveTab('text')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
             activeTab === 'text'
               ? 'bg-amber-600/20 text-amber-400 border border-amber-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          <FileText className="w-4 h-4 text-amber-400" />
-          Paste Transcript
+          <FileText className="w-4 h-4 text-amber-400 shrink-0" />
+          <span>Paste</span>
         </button>
       </div>
 
@@ -245,7 +246,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
         {/* 3. Upload Tab */}
         {activeTab === 'upload' && (
           <div>
-            <label className="border-2 border-dashed border-slate-700 hover:border-purple-500/50 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all bg-slate-800/30 mb-4 block text-center">
+            <label className="border-2 border-dashed border-slate-700 hover:border-purple-500/50 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all bg-slate-800/30 mb-4 text-center">
               <UploadCloud className="w-10 h-10 text-purple-400 mb-3 mx-auto" />
               <p className="font-medium text-slate-200 text-sm mb-1">
                 {uploadedFile ? uploadedFile.name : 'Click to upload audio file or drop here'}
