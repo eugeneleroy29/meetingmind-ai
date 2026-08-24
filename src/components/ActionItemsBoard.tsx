@@ -24,7 +24,7 @@ export const ActionItemsBoard: React.FC<ActionItemsBoardProps> = ({ items, onTog
     const text = items
       .map(
         (i) =>
-          `[${i.completed ? 'x' : ' '}] ${i.task} (Assignee: @${i.owner} | Due: ${i.deadline} | Priority: ${i.priority})`
+          `[${i.completed ? 'x' : ' '}] ${i.task} (Owner: @${i.owner} | Due: ${i.deadline} | Priority: ${i.priority})`
       )
       .join('\n');
     navigator.clipboard.writeText(text);
@@ -51,12 +51,12 @@ export const ActionItemsBoard: React.FC<ActionItemsBoardProps> = ({ items, onTog
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-800">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold text-slate-100">Action Items & Deliverables</h3>
+            <h3 className="text-base font-bold text-slate-100">Assigned Tasks &amp; Next Steps</h3>
             <span className="text-xs bg-slate-800 text-slate-300 font-mono px-2 py-0.5 rounded-full">
-              {completedCount} / {items.length} completed
+              {completedCount} of {items.length} completed
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">Assigned tasks with deadlines and owners</p>
+          <p className="text-xs text-slate-400 mt-0.5">Click any task to mark as done</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -73,7 +73,7 @@ export const ActionItemsBoard: React.FC<ActionItemsBoardProps> = ({ items, onTog
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                {p}
+                {p === 'ALL' ? 'All' : p}
               </button>
             ))}
           </div>
@@ -81,10 +81,10 @@ export const ActionItemsBoard: React.FC<ActionItemsBoardProps> = ({ items, onTog
           {/* Copy Button */}
           <button
             onClick={handleCopyAll}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-semibold transition-all cursor-pointer active:scale-95"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-            {copied ? 'Copied' : 'Export'}
+            {copied ? 'Copied Tasks' : 'Copy All Tasks'}
           </button>
         </div>
       </div>
@@ -93,7 +93,7 @@ export const ActionItemsBoard: React.FC<ActionItemsBoardProps> = ({ items, onTog
       <div className="divide-y divide-slate-800/60 mt-2">
         {filteredItems.length === 0 ? (
           <div className="py-8 text-center text-slate-500 text-sm">
-            No action items match the selected filter.
+            No action items match the selected priority filter.
           </div>
         ) : (
           filteredItems.map((item) => (
@@ -139,7 +139,7 @@ export const ActionItemsBoard: React.FC<ActionItemsBoardProps> = ({ items, onTog
 
                   {/* Priority Badge */}
                   <span
-                    className={`border px-2 py-0.5 rounded text-[11px] font-semibold ${getPriorityBadge(
+                    className={`border px-2 py-0.5 rounded text-[10px] font-semibold ${getPriorityBadge(
                       item.priority
                     )}`}
                   >

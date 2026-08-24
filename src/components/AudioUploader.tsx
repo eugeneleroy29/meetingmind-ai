@@ -48,8 +48,9 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
       if (!res.ok) throw new Error(data.error || 'Transcription failed');
 
       await onAnalyze(data.transcript, 'Recorded Voice Memo');
-    } catch (err: any) {
-      alert(`Transcription Error: ${err.message}`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Transcription failed';
+      alert(`Transcription Notice: ${msg}`);
     } finally {
       setIsTranscribing(false);
     }
@@ -59,7 +60,6 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check if it's text or audio
     if (file.name.endsWith('.txt') || file.name.endsWith('.md')) {
       const text = await file.text();
       setRawText(text);
@@ -93,51 +93,50 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
       <div className="grid grid-cols-2 lg:grid-cols-4 border-b border-slate-800 pb-4 gap-2 mb-6">
         <button
           onClick={() => setActiveTab('preset')}
-          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
             activeTab === 'preset'
-              ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
+              ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
           <Sparkles className="w-4 h-4 text-blue-400 shrink-0" />
-          <span className="hidden sm:inline">Preset Meetings</span>
-          <span className="sm:hidden">Preset</span>
+          <span>✨ Sample Demos</span>
         </button>
 
         <button
           onClick={() => setActiveTab('record')}
-          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
             activeTab === 'record'
-              ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30'
+              ? 'bg-emerald-600/20 text-emerald-300 border border-emerald-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
           <Mic className="w-4 h-4 text-emerald-400 shrink-0" />
-          <span>Record</span>
+          <span>🎙️ Record Voice</span>
         </button>
 
         <button
           onClick={() => setActiveTab('upload')}
-          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
             activeTab === 'upload'
-              ? 'bg-purple-600/20 text-purple-400 border border-purple-500/30'
+              ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
           <UploadCloud className="w-4 h-4 text-purple-400 shrink-0" />
-          <span>Upload</span>
+          <span>📁 Upload Audio</span>
         </button>
 
         <button
           onClick={() => setActiveTab('text')}
-          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+          className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
             activeTab === 'text'
-              ? 'bg-amber-600/20 text-amber-400 border border-amber-500/30'
+              ? 'bg-amber-600/20 text-amber-300 border border-amber-500/30'
               : 'text-slate-400 hover:text-slate-200'
           }`}
         >
           <FileText className="w-4 h-4 text-amber-400 shrink-0" />
-          <span>Paste</span>
+          <span>📝 Paste Notes</span>
         </button>
       </div>
 
@@ -146,8 +145,8 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
         {/* 1. Preset Tab */}
         {activeTab === 'preset' && (
           <div>
-            <label className="block text-xs uppercase tracking-wider font-semibold text-slate-400 mb-3">
-              Choose a Sample Meeting Scenario
+            <label className="block text-xs uppercase tracking-wider font-bold text-slate-400 mb-3">
+              Select a 1-Click Demo Scenario
             </label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
               {PRESET_MEETINGS.map((preset) => (
@@ -160,7 +159,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
                       : 'bg-slate-800/50 border-slate-700 hover:border-slate-600'
                   }`}
                 >
-                  <p className="font-semibold text-slate-100 text-sm mb-1">{preset.title}</p>
+                  <p className="font-bold text-slate-100 text-sm mb-1">{preset.title}</p>
                   <div className="flex items-center gap-2 text-xs text-slate-400">
                     <span>⏱ {preset.duration}</span>
                     <span>•</span>
@@ -172,7 +171,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
             <button
               onClick={handleAnalyzePreset}
               disabled={isLoading}
-              className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+              className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-95"
             >
               <Sparkles className="w-4 h-4" />
               {isLoading ? 'Extracting Meeting Intelligence...' : 'Analyze Selected Meeting Now'}
@@ -197,7 +196,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
                 <button
                   onClick={startRecording}
                   disabled={isLoading || isTranscribing}
-                  className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-medium flex items-center gap-2 transition-all shadow-lg shadow-emerald-600/20"
+                  className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-emerald-600/20 active:scale-95"
                 >
                   <Mic className="w-4 h-4" />
                   {audioBlob ? 'Record Again' : 'Start Recording'}
@@ -205,7 +204,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
               ) : (
                 <button
                   onClick={stopRecording}
-                  className="px-6 py-3 bg-rose-600 hover:bg-rose-500 rounded-xl font-medium flex items-center gap-2 transition-all animate-pulse"
+                  className="px-6 py-3 bg-rose-600 hover:bg-rose-500 rounded-xl font-bold flex items-center gap-2 transition-all animate-pulse"
                 >
                   <Square className="w-4 h-4" />
                   Stop Recording
@@ -229,14 +228,14 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
                 <button
                   onClick={() => audioBlob && handleTranscribeAndAnalyzeBlob(audioBlob, 'memo.webm')}
                   disabled={isLoading || isTranscribing}
-                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-95"
                 >
                   <Sparkles className="w-4 h-4" />
                   {isTranscribing
-                    ? 'Transcribing with Groq Whisper...'
+                    ? 'Transcribing with Whisper AI...'
                     : isLoading
                     ? 'Analyzing...'
-                    : 'Transcribe & Extract Intelligence'}
+                    : 'Transcribe & Extract Tasks'}
                 </button>
               </div>
             )}
@@ -248,8 +247,8 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
           <div>
             <label className="border-2 border-dashed border-slate-700 hover:border-purple-500/50 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all bg-slate-800/30 mb-4 text-center">
               <UploadCloud className="w-10 h-10 text-purple-400 mb-3 mx-auto" />
-              <p className="font-medium text-slate-200 text-sm mb-1">
-                {uploadedFile ? uploadedFile.name : 'Click to upload audio file or drop here'}
+              <p className="font-bold text-slate-200 text-sm mb-1">
+                {uploadedFile ? uploadedFile.name : 'Click to upload audio file or drag & drop here'}
               </p>
               <p className="text-xs text-slate-400">Supports .mp3, .wav, .m4a, .webm, or .txt/.md transcripts</p>
               <input
@@ -264,11 +263,11 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
               <button
                 onClick={handleAnalyzeUpload}
                 disabled={isLoading || isTranscribing}
-                className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-95"
               >
                 <Sparkles className="w-4 h-4" />
                 {isTranscribing
-                  ? 'Transcribing audio with Groq Whisper...'
+                  ? 'Transcribing audio with Whisper AI...'
                   : isLoading
                   ? 'Analyzing...'
                   : `Transcribe & Analyze ${uploadedFile.name}`}
@@ -283,17 +282,17 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({ onAnalyze, isLoadi
             <textarea
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
-              placeholder="Paste raw conversation transcript, team notes, or minutes here..."
+              placeholder="Paste raw conversation transcript, team meeting notes, or minutes here..."
               rows={6}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm text-slate-200 focus:outline-none focus:border-amber-500 mb-4 font-mono"
             />
             <button
               onClick={handleAnalyzeRawText}
               disabled={isLoading || !rawText.trim()}
-              className="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white font-medium rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+              className="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer active:scale-95"
             >
               <Sparkles className="w-4 h-4" />
-              {isLoading ? 'Extracting Meeting Intelligence...' : 'Analyze Pasted Transcript'}
+              {isLoading ? 'Extracting Meeting Intelligence...' : 'Analyze Pasted Notes'}
             </button>
           </div>
         )}
